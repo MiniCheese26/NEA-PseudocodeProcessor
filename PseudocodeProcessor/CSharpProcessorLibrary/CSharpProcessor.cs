@@ -64,8 +64,9 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                 return new CSharpPseudoCode("Failed to initialise CompilationUnit",
                     loadCompilationUnitResult.Exception);
             }
-            
+
             ISyntaxTraverser syntaxTraverser = new CSharpSyntaxTraverser(_root);
+            syntaxTraverser.OrganiseCode();
 
             return new CSharpPseudoCode("", "");
         }
