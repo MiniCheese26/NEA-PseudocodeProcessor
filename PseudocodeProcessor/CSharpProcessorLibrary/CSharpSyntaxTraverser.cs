@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace PseudocodeProcessor.CSharpProcessorLibrary
 {
-    internal class CSharpSyntaxTraverser : ISyntaxTraverser
+    internal class CSharpSyntaxTraverser : ISyntaxTraverser // might inherit from CSharpSyntaxWalker instead of an interface, then override methods instead of a singular organise method
     {
         private readonly CompilationUnitSyntax _compilationUnitSyntax;
         private bool _codeOrganised;
