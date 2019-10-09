@@ -4,19 +4,14 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
 {
     public class CSharpPseudoCode : IPseudoCode
     {
-        public string Code { get; }
-        public bool ErrorEncountered => string.IsNullOrWhiteSpace(Code) || !string.IsNullOrWhiteSpace(ErrorMessage) || Exception != null;
+        public string PseudoCode { get; }
+        public bool ErrorEncountered => string.IsNullOrWhiteSpace(PseudoCode) || !string.IsNullOrWhiteSpace(ErrorMessage) || Exception != null;
         public string ErrorMessage { get; }
         public Exception Exception { get; }
 
-        public CSharpPseudoCode(string errorMessage)
+        public CSharpPseudoCode(string code, string errorMessage = "")
         {
-            ErrorMessage = errorMessage;
-        }
-
-        public CSharpPseudoCode(string code, string errorMessage)
-        {
-            Code = code;
+            PseudoCode = code;
             ErrorMessage = errorMessage;
         }
 

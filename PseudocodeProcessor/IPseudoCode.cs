@@ -4,7 +4,7 @@ namespace PseudocodeProcessor
 {
     public interface IPseudoCode
     {
-        string Code { get; }
+        string PseudoCode { get; }
         bool ErrorEncountered { get; }
         string ErrorMessage { get; }
         Exception Exception { get; }

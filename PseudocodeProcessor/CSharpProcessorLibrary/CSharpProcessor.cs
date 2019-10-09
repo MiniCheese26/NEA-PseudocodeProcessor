@@ -36,7 +36,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
         }
 
-        public CSharpProcessor(string code, LanguageVersion languageVersion = LanguageVersion.Latest, CancellationToken cancellationToken = default)
+        public CSharpProcessor(string code, LanguageVersion languageVersion, CancellationToken cancellationToken = default)
         {
             _languageVersion = languageVersion;
             _cancellationToken = cancellationToken;
@@ -47,7 +47,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
         {
             if (string.IsNullOrWhiteSpace(Code))
             {
-                return new CSharpPseudoCode("Code was null or empty");
+                return new CSharpPseudoCode("", "Code was null or empty");
             }
             
             CSharpResult loadSyntaxTreeCSharpResult = LoadSyntaxTree();
@@ -65,10 +65,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     loadCompilationUnitResult.Exception);
             }
 
-            ISyntaxTraverser syntaxTraverser = new CSharpSyntaxTraverser(_root);
-            syntaxTraverser.OrganiseCode();
-
-            return new CSharpPseudoCode("", "");
+            return new CSharpPseudoCode("");
         }
 
         private CSharpResult LoadSyntaxTree()

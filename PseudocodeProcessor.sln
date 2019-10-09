@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PseudocodeProcessor", "PseudocodeProcessor\PseudocodeProcessor.csproj", "{C1F3EA19-21A3-4E6A-B0D3-D314261A7F25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PseudocodeTesting", "..\PseudocodeTesting\PseudocodeTesting\PseudocodeTesting.csproj", "{3B8125CC-FFFE-4E4C-AAE6-3D85328C5E54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PseudocodeTesting", "..\NEA-PseudocodeTesting\PseudocodeTesting\PseudocodeTesting.csproj", "{BB6FD74C-B74E-4DD6-B57C-58D486AAEC5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C1F3EA19-21A3-4E6A-B0D3-D314261A7F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1F3EA19-21A3-4E6A-B0D3-D314261A7F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1F3EA19-21A3-4E6A-B0D3-D314261A7F25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B8125CC-FFFE-4E4C-AAE6-3D85328C5E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B8125CC-FFFE-4E4C-AAE6-3D85328C5E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B8125CC-FFFE-4E4C-AAE6-3D85328C5E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B8125CC-FFFE-4E4C-AAE6-3D85328C5E54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB6FD74C-B74E-4DD6-B57C-58D486AAEC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6FD74C-B74E-4DD6-B57C-58D486AAEC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6FD74C-B74E-4DD6-B57C-58D486AAEC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6FD74C-B74E-4DD6-B57C-58D486AAEC5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
