@@ -34,11 +34,19 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                 string codeJoined = string.Join(Environment.NewLine, linesTrimmed);
 
                 if (!Regex.IsMatch(codeJoined,
-                    @"(?:^namespace\s\w+\s+{\s+)?(?:^\w+\s+(?:static\s+)?\w+\s+\w+(?:\(.*?\))?\s+{\s+)+",
+                    @"(?:^\w+\s+(?:static\s+)?\w+\s+\w+(?:\(.*?\))?\s+{\s+)+",
                     RegexOptions.IgnoreCase | RegexOptions.Multiline))
                 {
+                    var codeSplitOnNamespace = Regex.Split(codeJoined, @"^namespace\s\w+\s+{\s+",
+                            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+                    if (codeSplitOnNamespace.Length > 1)
+                    {
+                        codeJoined = codeSplitOnNamespace[1];
+                    }
+                    
                     codeJoined = "static void Main()\n{\n" + codeJoined;
-                    codeJoined += "\n}";
+                    codeJoined += "\n}"; // analyser doesn't care about incorrect numbers of curly brackets
                 }
 
                 _code = codeJoined;
