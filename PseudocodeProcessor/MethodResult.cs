@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 
-namespace PseudocodeProcessor.CSharpProcessorLibrary
+namespace PseudocodeProcessor
 {
-    internal class CSharpResult : IResult
+    internal class MethodResult
     {
         public bool Success { get; }
         public Exception Exception { get; }
 
-        public CSharpResult(bool success)
+        public MethodResult(bool success)
         {
             Success = success;
         }
 
-        public CSharpResult(bool success, Exception exception)
+        public MethodResult(bool success, Exception exception)
         {
             Success = success;
             Exception = exception;

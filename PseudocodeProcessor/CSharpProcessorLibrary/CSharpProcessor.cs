@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -32,6 +33,14 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
 
                 string codeJoined = string.Join(Environment.NewLine, linesTrimmed);
 
+                if (!Regex.IsMatch(codeJoined,
+                    @"(?:^namespace\s\w+\s+{\s+)?(?:^\w+\s+(?:static\s+)?\w+\s+\w+(?:\(.*?\))?\s+{\s+)+",
+                    RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                {
+                    codeJoined = "static void Main()\n{\n" + codeJoined;
+                    codeJoined += "\n}";
+                }
+
                 _code = codeJoined;
             }
         }
@@ -50,14 +59,14 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                 return new CSharpPseudoCode("", "Code was null or empty");
             }
             
-            CSharpResult loadSyntaxTreeCSharpResult = LoadSyntaxTree();
+            MethodResult loadSyntaxTreeCSharpResult = LoadSyntaxTree();
 
             if (!loadSyntaxTreeCSharpResult.Success)
             {
                 return new CSharpPseudoCode("Failed to initialise SyntaxTree", loadSyntaxTreeCSharpResult.Exception);
             }
 
-            CSharpResult loadCompilationUnitResult = LoadCompilationUnit();
+            MethodResult loadCompilationUnitResult = LoadCompilationUnit();
 
             if (!loadCompilationUnitResult.Success)
             {
@@ -65,10 +74,17 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     loadCompilationUnitResult.Exception);
             }
 
+            var e = _root.Members;
+            var f = _root.Kind();
+            var r = _root.ChildNodes();
+            var p = _root.ChildTokens();
+            var o = _root.GetText();
+            var i = _root.GetDiagnostics();
+
             return new CSharpPseudoCode("");
         }
 
-        private CSharpResult LoadSyntaxTree()
+        private MethodResult LoadSyntaxTree()
         {
             var parseOptions = new CSharpParseOptions(_languageVersion);
 
@@ -78,17 +94,17 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
             catch (Exception ex)
             {
-                return new CSharpResult(false, ex);
+                return new MethodResult(false, ex);
             }
 
-            return new CSharpResult(true);
+            return new MethodResult(true);
         }
 
-        private CSharpResult LoadCompilationUnit()
+        private MethodResult LoadCompilationUnit()
         {
             if (_syntaxTree == null)
             {
-                return new CSharpResult(false);
+                return new MethodResult(false);
             }
 
             try
@@ -97,10 +113,10 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
             catch (Exception ex)
             {
-                return new CSharpResult(false, ex);
+                return new MethodResult(false, ex);
             }
 
-            return new CSharpResult(true);
+            return new MethodResult(true);
         }
     }
 }
