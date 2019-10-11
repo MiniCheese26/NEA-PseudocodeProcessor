@@ -36,29 +36,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
 
             SortDeclarationMembers(rootMembers); // don't like using void here
-            
-            
-            List<SyntaxNode> rootChildNodes = _compilationUnitSyntax.ChildNodes().ToList();
 
-            List<NamespaceDeclarationSyntax> namespaceNodes = rootChildNodes
-                .Where(x => x.Kind() == SyntaxKind.NamespaceDeclaration)
-                .Select(y => (NamespaceDeclarationSyntax) y)
-                .ToList();
-
-            var classNodes = new List<ClassDeclarationSyntax>();
-
-            if (namespaceNodes.Count == 0)
-            {
-                classNodes.AddRange(rootChildNodes
-                    .Where(x => x.Kind() == SyntaxKind.ClassDeclaration)
-                    .Select(y => (ClassDeclarationSyntax) y)
-                    .ToList());
-            }
-            else
-            {
-                // need to enumerate all namespacenodes and add all results from each enumeration
-            }
-            
             _codeOrganised = true;
             return new MethodResult(true);
         }
