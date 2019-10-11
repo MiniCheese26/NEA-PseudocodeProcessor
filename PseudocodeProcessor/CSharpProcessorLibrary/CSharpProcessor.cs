@@ -91,7 +91,12 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             var i = _root.GetDiagnostics();
             
             var traverser = new CSharpSyntaxTraverser(_root);
-            traverser.OrganiseCode();
+            var b = traverser.OrganiseCode();
+
+            if (!b.Success)
+            {
+                return new CSharpPseudoCode("", b.FailureMessage);
+            }
 
             return new CSharpPseudoCode("");
         }
