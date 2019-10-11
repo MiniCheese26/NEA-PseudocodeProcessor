@@ -37,7 +37,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     @"(?:^\w+\s+(?:static\s+)?\w+\s+\w+(?:\(.*?\))?\s+{\s+)+",
                     RegexOptions.IgnoreCase | RegexOptions.Multiline))
                 {
-                    var codeSplitOnNamespace = Regex.Split(codeJoined, @"^namespace\s\w+\s+{\s+",
+                    string[] codeSplitOnNamespace = Regex.Split(codeJoined, @"^namespace\s\w+\s+{\s+",
                             RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
                     if (codeSplitOnNamespace.Length > 1)
@@ -71,14 +71,15 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
 
             if (!loadSyntaxTreeCSharpResult.Success)
             {
-                return new CSharpPseudoCode("Failed to initialise SyntaxTree", loadSyntaxTreeCSharpResult.Exception);
+                return new CSharpPseudoCode(loadSyntaxTreeCSharpResult.FailureMessage,
+                    loadSyntaxTreeCSharpResult.Exception);
             }
 
             MethodResult loadCompilationUnitResult = LoadCompilationUnit();
 
             if (!loadCompilationUnitResult.Success)
             {
-                return new CSharpPseudoCode("Failed to initialise CompilationUnit",
+                return new CSharpPseudoCode(loadCompilationUnitResult.FailureMessage,
                     loadCompilationUnitResult.Exception);
             }
 
@@ -88,6 +89,9 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             var p = _root.ChildTokens();
             var o = _root.GetText();
             var i = _root.GetDiagnostics();
+            
+            var traverser = new CSharpSyntaxTraverser(_root);
+            traverser.OrganiseCode();
 
             return new CSharpPseudoCode("");
         }
@@ -102,7 +106,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
             catch (Exception ex)
             {
-                return new MethodResult(false, ex);
+                return new MethodResult(false, ex, "Failed to parse CSharp code");
             }
 
             return new MethodResult(true);
@@ -112,7 +116,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
         {
             if (_syntaxTree == null)
             {
-                return new MethodResult(false);
+                return new MethodResult(false, "Syntax tree was null");
             }
 
             try
@@ -121,7 +125,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             }
             catch (Exception ex)
             {
-                return new MethodResult(false, ex);
+                return new MethodResult(false, ex, "Failed to get CompilationUnitRoot");
             }
 
             return new MethodResult(true);
