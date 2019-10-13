@@ -32,19 +32,19 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     .Select(x => x.Trim());
 
                 string codeJoined = string.Join(Environment.NewLine, linesTrimmed);
+                
+                string[] codeSplitOnNamespace = Regex.Split(codeJoined, @"^namespace\s\w+\s+{\s+",
+                    RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+                if (codeSplitOnNamespace.Length > 1)
+                {
+                    codeJoined = codeSplitOnNamespace[1];
+                }
 
                 if (!Regex.IsMatch(codeJoined,
                     @"(?:^\w+\s+(?:static\s+)?\w+\s+\w+(?:\(.*?\))?\s+{\s+)+",
                     RegexOptions.IgnoreCase | RegexOptions.Multiline))
                 {
-                    string[] codeSplitOnNamespace = Regex.Split(codeJoined, @"^namespace\s\w+\s+{\s+",
-                            RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
-                    if (codeSplitOnNamespace.Length > 1)
-                    {
-                        codeJoined = codeSplitOnNamespace[1];
-                    }
-                    
                     codeJoined = "static void Main()\n{\n" + codeJoined;
                     codeJoined += "\n}"; // analyser doesn't care about incorrect numbers of curly brackets
                 }
@@ -83,6 +83,10 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     loadCompilationUnitResult.Exception);
             }
 
+            var descTokens = _root.DescendantTokens();
+            var descNodes = _root.DescendantNodes();
+            var descTrivia = _root.DescendantTrivia();
+
             var e = _root.Members;
             var f = _root.Kind();
             var r = _root.ChildNodes();
@@ -90,8 +94,8 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             var o = _root.GetText();
             var i = _root.GetDiagnostics();
             
-            var traverser = new CSharpSyntaxTraverser(_root);
-            var b = traverser.OrganiseCode();
+            var traverser = new CSharpSyntaxIterator(_root);
+            var b = traverser.TranslateCode();
 
             if (!b.Success)
             {
