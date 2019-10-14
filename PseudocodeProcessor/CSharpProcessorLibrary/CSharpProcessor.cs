@@ -102,7 +102,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                 return new CSharpPseudoCode("", b.FailureMessage);
             }
 
-            return new CSharpPseudoCode("");
+            return new CSharpPseudoCode(traverser.TranslatedCode);
         }
 
         private MethodResult LoadSyntaxTree()

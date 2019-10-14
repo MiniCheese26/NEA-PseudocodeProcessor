@@ -2,7 +2,7 @@
 using PseudocodeProcessor.CSharpProcessorLibrary;
 using Xunit;
 
-namespace PseudocodeProcessor.UnitTests
+namespace PseudocodeProcessor.UnitTests.CSharpProcessorLibrary
 {
     public class CSharpProcessorTests
     {

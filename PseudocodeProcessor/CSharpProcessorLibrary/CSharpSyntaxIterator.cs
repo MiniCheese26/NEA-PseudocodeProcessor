@@ -3,11 +3,13 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PseudocodeProcessor.CSharpProcessorLibrary.Translator;
 
 namespace PseudocodeProcessor.CSharpProcessorLibrary
 {
     internal class CSharpSyntaxIterator // might inherit from CSharpSyntaxWalker instead of an interface, then override methods instead of a singular organise method
     {
+        public string TranslatedCode { get; private set; }
         private readonly CompilationUnitSyntax _compilationUnitSyntax;
         private readonly CSharpTranslator _cSharpTranslator;
 
@@ -37,7 +39,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                 return new MethodResult(false, "No methods or classes found in code");
             }
 
-            var k = ProcessRootMembers(rootMembers);
+            TranslatedCode = ProcessRootMembers(rootMembers);
 
             return new MethodResult(true);
         }
@@ -55,7 +57,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     case SyntaxKind.ClassDeclaration:
                     {
                         var classDeclaration = (ClassDeclarationSyntax) declaration;
-                        var classMembers = classDeclaration.Members;
+                        SyntaxList<MemberDeclarationSyntax> classMembers = classDeclaration.Members;
 
                         translatedCode += _cSharpTranslator.TranslateClassDeclaration(classDeclaration);
 
@@ -65,7 +67,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
                     case SyntaxKind.MethodDeclaration:
                     {
                         var methodDeclaration = (MethodDeclarationSyntax) declaration;
-                        var methodBodyStatements = methodDeclaration.Body.Statements;
+                        SyntaxList<StatementSyntax> methodBodyStatements = methodDeclaration.Body.Statements;
 
                         translatedCode += _cSharpTranslator.TranslateMemberDeclaration(methodDeclaration);
 
@@ -90,7 +92,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
 
             switch (statementKind)
             {
-                case SyntaxKind.ExpressionStatement:
+                case SyntaxKind.ExpressionStatement: // this doesn't work, to translate input, it needs the writeline and the assignment
                     return _cSharpTranslator.TranslateExpressionStatement((ExpressionStatementSyntax) statement);
                 default:
                     return "";
