@@ -7,7 +7,31 @@ using PseudocodeProcessor.CSharpProcessorLibrary.Translator;
 
 namespace PseudocodeProcessor.CSharpProcessorLibrary
 {
-    internal class CSharpSyntaxIterator // might inherit from CSharpSyntaxWalker instead of an interface, then override methods instead of a singular organise method
+    internal class CSharpSyntaxTranslatorBase // this setup might work... will need to write some pseudocode and plan it out
+    {
+        protected MethodDeclarationSyntax CurrentMethodSyntax;
+        protected SyntaxList<StatementSyntax> CurrentMethodStatements => CurrentMethodSyntax.Body.Statements;
+        protected StatementSyntax CurrentStatement => CurrentMethodStatements[CurrentStatementIndex];
+        protected int CurrentStatementIndex;
+    }
+
+    internal class CSharpSyntaxTranslator : CSharpSyntaxTranslatorBase
+    {
+        public void Ma()
+        {
+
+        }
+    }
+
+    internal class CSharpStatementTranslator : CSharpSyntaxTranslator
+    {
+        public void M()
+        {
+            Cu
+        }
+    }
+
+    internal class CSharpSyntaxIterator
     {
         public string TranslatedCode { get; private set; }
         private readonly CompilationUnitSyntax _compilationUnitSyntax;
@@ -19,8 +43,8 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
             _cSharpTranslator = new CSharpTranslator();
         }
 
-        public MethodResult TranslateCode()
-        {
+        public MethodResult TranslateCode() // this needs a total re-write, any translation method/class needs access to the current method syntax, for example if a writeline is encountered, need to check following statements for a readline
+        { // could use inheritance, base class with CurrentMethodSyntax field, would prefer composition though
             if (_compilationUnitSyntax == null)
             {
                 return new MethodResult(false, "Compilation unit was null");
@@ -92,7 +116,7 @@ namespace PseudocodeProcessor.CSharpProcessorLibrary
 
             switch (statementKind)
             {
-                case SyntaxKind.ExpressionStatement: // this doesn't work, to translate input, it needs the writeline and the assignment
+                case SyntaxKind.ExpressionStatement: // this doesn't work, to translate input, it needs the writeline and the assignment, needs total re-design
                     return _cSharpTranslator.TranslateExpressionStatement((ExpressionStatementSyntax) statement);
                 default:
                     return "";
